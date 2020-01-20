@@ -1,29 +1,32 @@
-# migao-cli
+# Welcome to migao-cli 👋
 
-## Project setup
-```
+![Version](https://img.shields.io/badge/version-0.9.svg?cacheSeconds=2592000)
+[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://doc.cli.migao.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
+
+> A vue client by migao
+
+### 🏠 [Homepage](https://cli.migao.io)
+
+### ✨ [Demo](https://demo.cli.migao.io)
+
+## Install
+
+```sh
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## Author
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+👤 **Migao**
 
-### Run your tests
-```
-yarn run test
-```
+- Website: https://migao.io
+- Github: [@walkingp](https://github.com/walkingp)
 
-### Lints and fixes files
-```
-yarn run lint
-```
+## Show your support
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Give a ⭐️ if this project helped you!
+
+---
+
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
