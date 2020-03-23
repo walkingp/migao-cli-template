@@ -1,14 +1,24 @@
 import React from "react";
-import { Button } from "antd";
+import { ConfigProvider } from "antd";
+import zh_CN from "antd/es/locale-provider/zh_CN";
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./assets/scss/mi.scss";
 import "./styles/layout.scss";
+import Login from "./pages/login";
+import Index from "./pages/admin/index";
+import Page404 from "./pages/page404";
 
-function App() {
-  return (
-    <div className="App flex align-center justify-center">
-      <Button type="primary">Button</Button>
-    </div>
-  );
-}
+const App = () => (
+  <ConfigProvider locale={zh_CN}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path={"/login"} component={Login}></Route>
+        <Route path={"/"} component={Index}></Route>
+        <Route component={Page404} />
+      </Switch>
+    </BrowserRouter>
+  </ConfigProvider>
+);
 
 export default App;
