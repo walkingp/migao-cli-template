@@ -8,20 +8,23 @@ import {
 } from "@ant-design/icons";
 import Dashboard from "./dashboard";
 import Page404 from "./../page404";
+import logo from "./../../assets/images/logo.svg";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-export default function Index() {
+export default function Index(props: any) {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header className="header flex space-between align-center">
-        <div className="logo" />
+        <div className="logo flex align-center justify-center white">
+          <img className="padding-right-xs" src={logo} alt=""></img>
+          Migao CMS
+        </div>
         <Menu
           theme="dark"
           mode="horizontal"
           style={{ height: "64px", lineHeight: "64px" }}
-          defaultSelectedKeys={["1"]}
         >
           <Menu.Item key="1">用户中心</Menu.Item>
         </Menu>
@@ -43,36 +46,8 @@ export default function Index() {
                 </span>
               }
             >
-              <Menu.Item key="1">用户管理</Menu.Item>
-              <Menu.Item key="2">内容管理</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub2"
-              title={
-                <span>
-                  <LaptopOutlined />
-                  subnav 2
-                </span>
-              }
-            >
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub3"
-              title={
-                <span>
-                  <NotificationOutlined />
-                  subnav 3
-                </span>
-              }
-            >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
+              <Menu.Item key="1">看板</Menu.Item>
+              <Menu.Item key="2">列表</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
@@ -90,12 +65,7 @@ export default function Index() {
               minHeight: 280,
             }}
           >
-            <Suspense fallback={<Spin />}>
-              <Switch>
-                <Route exact path="/" component={Dashboard} />
-                <Route component={Page404} />
-              </Switch>
-            </Suspense>
+            <Suspense fallback={<Spin />}>{props.children}</Suspense>
           </Content>
         </Layout>
       </Layout>

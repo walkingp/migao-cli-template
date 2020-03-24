@@ -1,7 +1,6 @@
 import React from "react";
 import { ConfigProvider } from "antd";
 import zh_CN from "antd/es/locale-provider/zh_CN";
-import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./assets/scss/mi.scss";
 import "./styles/layout.scss";
@@ -14,7 +13,10 @@ const App = () => (
     <BrowserRouter>
       <Switch>
         <Route exact path={"/login"} component={Login}></Route>
-        <Route path={"/"} component={Index}></Route>
+        <Route
+          path={"/admin"}
+          render={(props) => <Index {...props}></Index>}
+        ></Route>
         <Route component={Page404} />
       </Switch>
     </BrowserRouter>
