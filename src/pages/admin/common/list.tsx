@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
-import { PageHeader, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { PageHeader, Table, Button } from "antd";
 import { get } from "../../../utils/http";
+import { withRouter } from "react-router-dom";
 
-export default function CommonList() {
+function CommonList(props: any) {
+  const [dataSource, setDataSource] = useState([]);
+
   const fetch = () => {
-    get("/users").then((res) => {
-      console.log(res);
+    get("/users").then((res: any) => {
+      setDataSource(res.data);
     });
   };
 
@@ -13,36 +16,32 @@ export default function CommonList() {
     fetch();
   }, []);
 
-  const dataSource = [
-    {
-      key: "1",
-      name: "胡彦斌",
-      age: 32,
-      address: "西湖区湖底公园1号",
-    },
-    {
-      key: "2",
-      name: "胡彦祖",
-      age: 42,
-      address: "西湖区湖底公园1号",
-    },
-  ];
-
   const columns = [
     {
+      title: "编号",
+      key: "id",
+      width: 80,
+      render: (txt: string, row: any, index: number) => index + 1,
+    },
+    {
       title: "姓名",
-      dataIndex: "name",
+      dataIndex: "username",
       key: "name",
     },
     {
-      title: "年龄",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "住址",
-      dataIndex: "address",
-      key: "address",
+      title: "操作",
+      width: 100,
+      key: "action",
+      render: (txt: string, row: any) => (
+        <>
+          <Button
+            onClick={(e) => props.history.push("/admin/common/edit/23")}
+            type="link"
+          >
+            编辑
+          </Button>
+        </>
+      ),
     },
   ];
   return (
@@ -52,8 +51,19 @@ export default function CommonList() {
         onBack={() => null}
         title="返回首页"
         subTitle="通用列表"
+        extra={[
+          <Button
+            key="add"
+            onClick={(e) => props.history.push("/admin/common/add")}
+            type="primary"
+          >
+            添加
+          </Button>,
+        ]}
       />
-      <Table dataSource={dataSource} columns={columns} />;
+      <Table rowKey="_id" dataSource={dataSource} columns={columns} />;
     </section>
   );
 }
+
+export default withRouter(CommonList);

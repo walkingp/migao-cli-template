@@ -3,7 +3,7 @@ import { Layout, Spin, Menu, Dropdown } from "antd";
 import { WindowsOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
 import logo from "./../../assets/images/logo.svg";
 import { adminRoutes } from "../../routes";
-import { Route, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 const { SubMenu } = Menu;
@@ -21,15 +21,7 @@ function Index(props: any) {
 
   const menu = (
     <Menu>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://www.alipay.com/"
-        >
-          退出登录
-        </a>
-      </Menu.Item>
+      <Menu.Item>退出登录</Menu.Item>
     </Menu>
   );
 
@@ -54,7 +46,7 @@ function Index(props: any) {
           <StyledMenu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={[props.location.pathname]}
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
           >
@@ -74,7 +66,6 @@ function Index(props: any) {
                     <Menu.Item
                       key={route.path}
                       onClick={(item) => {
-                        console.log(props);
                         props.history.push(item.key);
                       }}
                     >

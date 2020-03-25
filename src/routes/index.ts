@@ -36,10 +36,17 @@ export const adminRoutes = [
     icon: UnorderedListOutlined,
   },
   {
-    path: "/admin/common/edit",
+    path: "/admin/common/edit/:id",
     component: CommonEdit,
     isMenu: true,
     title: "编辑",
+    icon: EditOutlined,
+  },
+  {
+    path: "/admin/common/add",
+    component: CommonEdit,
+    isMenu: false,
+    title: "添加",
     icon: EditOutlined,
   },
 ];
