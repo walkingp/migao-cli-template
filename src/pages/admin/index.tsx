@@ -1,19 +1,38 @@
 import React, { Suspense } from "react";
-import { Layout, Spin, Menu, Breadcrumb } from "antd";
-import { Route, Switch } from "react-router-dom";
-import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-} from "@ant-design/icons";
-import Dashboard from "./dashboard";
-import Page404 from "./../page404";
+import { Layout, Spin, Menu, Dropdown } from "antd";
+import { WindowsOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
 import logo from "./../../assets/images/logo.svg";
+import { adminRoutes } from "../../routes";
+import { Route, withRouter } from "react-router-dom";
+import styled from "styled-components";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-export default function Index(props: any) {
+function Index(props: any) {
+  const StyledMenu = styled(Menu)`
+    height: "100%";
+    border-right: 0;
+  `;
+  const contentStyle = {
+    padding: "0 24px",
+    minHeight: 280,
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://www.alipay.com/"
+        >
+          退出登录
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header className="header flex space-between align-center">
@@ -21,17 +40,19 @@ export default function Index(props: any) {
           <img className="padding-right-xs" src={logo} alt=""></img>
           Migao CMS
         </div>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          style={{ height: "64px", lineHeight: "64px" }}
-        >
-          <Menu.Item key="1">用户中心</Menu.Item>
-        </Menu>
+        <Dropdown overlay={menu}>
+          <a
+            className="ant-dropdown-link white"
+            onClick={(e) => e.preventDefault()}
+          >
+            <UserOutlined /> 用户中心 <DownOutlined />
+          </a>
+        </Dropdown>
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
-          <Menu
+          <StyledMenu
+            theme="dark"
             mode="inline"
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
@@ -41,30 +62,31 @@ export default function Index(props: any) {
               key="sub1"
               title={
                 <span>
-                  <UserOutlined />
-                  系统管理
+                  <WindowsOutlined />
+                  内容管理
                 </span>
               }
             >
-              <Menu.Item key="1">看板</Menu.Item>
-              <Menu.Item key="2">列表</Menu.Item>
+              {adminRoutes
+                .filter((route) => route.isMenu)
+                .map((route) => {
+                  return (
+                    <Menu.Item
+                      key={route.path}
+                      onClick={(item) => {
+                        console.log(props);
+                        props.history.push(item.key);
+                      }}
+                    >
+                      {route.title}
+                    </Menu.Item>
+                  );
+                })}
             </SubMenu>
-          </Menu>
+          </StyledMenu>
         </Sider>
-        <Layout style={{ padding: "0 24px 24px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
+        <Layout>
+          <Content className="site-layout-background" style={contentStyle}>
             <Suspense fallback={<Spin />}>{props.children}</Suspense>
           </Content>
         </Layout>
@@ -72,3 +94,5 @@ export default function Index(props: any) {
     </Layout>
   );
 }
+
+export default withRouter(Index);

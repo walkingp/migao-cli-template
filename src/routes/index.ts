@@ -1,7 +1,13 @@
 import Login from "./../pages/login";
-import Index from "./../pages/admin/index";
 import Page404 from "./../pages/page404";
 import Dashboard from "../pages/admin/dashboard";
+import CommonList from "../pages/admin/common/list";
+import CommonEdit from "../pages/admin/common/edit";
+import {
+  AreaChartOutlined,
+  UnorderedListOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 export const mainRoutes = [
   {
@@ -16,13 +22,24 @@ export const mainRoutes = [
 
 export const adminRoutes = [
   {
-    path: "/admin",
-    component: Index,
-    children: [
-      {
-        path: "/dashboard",
-        component: Dashboard,
-      },
-    ],
+    path: "/admin/dashboard",
+    component: Dashboard,
+    isMenu: true,
+    title: "看板",
+    icon: AreaChartOutlined,
+  },
+  {
+    path: "/admin/common/list",
+    component: CommonList,
+    isMenu: true,
+    title: "列表",
+    icon: UnorderedListOutlined,
+  },
+  {
+    path: "/admin/common/edit",
+    component: CommonEdit,
+    isMenu: true,
+    title: "编辑",
+    icon: EditOutlined,
   },
 ];

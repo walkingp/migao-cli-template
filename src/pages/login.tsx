@@ -1,15 +1,28 @@
-import React from "react";
-import { Card, Form, Input, Button } from "antd";
-export default function login() {
-  const layout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
-  const tailLayout = {
-    wrapperCol: { offset: 6, span: 18 },
-  };
-  const onFinish = (values: any) => {
+import React, { useState } from "react";
+import { Card, Form, Input, Button, Checkbox, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { post } from "../utils/http";
+import { setToken } from "../utils/auth";
+import { withRouter } from "react-router";
+
+function Login(props: any) {
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values: any) => {
     console.log("Success:", values);
+    setLoading(true);
+    await post("login", values)
+      .then((res: any) => {
+        if (res.status === 200) {
+          setLoading(false);
+          setToken(res.data.token);
+          message.success("登录成功");
+          props.history.push("/admin");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -22,29 +35,41 @@ export default function login() {
     >
       <Card title="登录系统" style={{ width: 400, margin: "0 auto" }}>
         <Form
-          {...layout}
-          name="basic"
+          name="normal_login"
+          className="login-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="用户名"
             name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            rules={[{ required: true, message: "请输入用户名" }]}
           >
-            <Input />
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="用户名"
+            />
           </Form.Item>
-
           <Form.Item
-            label="密码"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: "请输入密码" }]}
           >
-            <Input.Password />
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="密码"
+            />
           </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
               登录
             </Button>
           </Form.Item>
@@ -53,3 +78,5 @@ export default function login() {
     </section>
   );
 }
+
+export default withRouter(Login);
